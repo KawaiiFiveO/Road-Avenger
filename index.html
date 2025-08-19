@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Avenger - Valentine One-Integrated Dashcam</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#hero" class="logo">
+                <img src="img/logo.png" alt="Road Avenger Logo">
+            </a>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#parts">Hardware</a></li>
+                <li><a href="#build">Build</a></li>
+                <li><a href="#setup">Software Setup</a></li>
+                <li><a href="#web-interface">Web UI</a></li>
+                <li><a href="#post-process">Post-Processing</a></li>
+                <li><a href="#license">License</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <h1>Road Avenger</h1>
+            <p>A Valentine One-integrated dashcam powered by Raspberry Pi.</p>
+
+            <!-- YouTube Video Embed Section -->
+            <div class="video-container">
+                <iframe 
+                    width="560" 
+                    height="315" 
+                    src="https://www.youtube.com/embed/X7LiXZeFnqI" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="placeholder-images">
+                <div class="placeholder-image">
+                    <img height="360" src="img/dashcam-1.png" alt="Road Avenger Project Image 1">
+                </div>
+                <div class="placeholder-image">
+                    <img height="360" src="img/dashcam-2.png" alt="Road Avenger Project Image 2">
+                </div>
+                <div class="placeholder-image">
+                    <img height="360" src="img/dashcam-3.png" alt="Road Avenger Project Image 3">
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <h2>Features</h2>
+            <ul>
+                <li>Record video and audio continuously in segments</li>
+                <li>Log data from a GPS module and Valentine One</li>
+                <li>Display V1 alert frequencies to OLED screen</li>
+                <li>Burn-in logged data and stabilize video in post-processing</li>
+                <li>Web interface works on any phone or tablet</li>
+                <li>Works with both V1 Gen1 and Gen2</li>
+            </ul>
+        </section>
+
+        <section id="parts">
+            <h2>Hardware</h2>
+            <ul>
+                <li>Raspberry Pi 4 Model B (<a href="https://www.amazon.com/dp/B09TTNPB4J" target="_blank" rel="noopener noreferrer">2GB</a>, 4GB, or 8GB)</li>
+                <li>Any <a href="https://www.amazon.com/dp/B07NY23WBG" target="_blank" rel="noopener noreferrer">high-endurance Micro-SD card</a></li>
+                <li><a href="https://www.amazon.com/dp/B0CNVZ27YH" target="_blank" rel="noopener noreferrer">USB Microphone for Laptop and Desktop Computer</a></li>
+                <li><a href="https://www.amazon.com/dp/B0C53BBMLG" target="_blank" rel="noopener noreferrer">Arducam for Raspberry Pi Camera 16MP IMX519 Camera Module</a></li>
+                <li><a href="https://www.amazon.com/dp/B07V4FRSKK" target="_blank" rel="noopener noreferrer">DIYmall PiOLED 0.91inch I2C 128X32 SSD1306 OLED Display Module</a></li>
+                <li><a href="https://www.amazon.com/dp/B0F2DP1189" target="_blank" rel="noopener noreferrer">YELUFT 1pcs GY-NEO6MV2 NEO-6M GPS Module</a></li>
+                <li>Any <a href="https://www.amazon.com/dp/B0F43ZDC6J" target="_blank" rel="noopener noreferrer">large, fast-charging power bank</a> (Optional - only if your car/USB adapter is not adequate to power the dashcam)</li>
+                <li>A <a href="https://www.valentine1.com/" target="_blank" rel="noopener noreferrer">Valentine One</a>, of course! (This project was tested with both Gen1 and Gen2)</li>
+            </ul>
+        </section>
+
+        <section id="build">
+            <h2>Build</h2>
+            <p>This section will provide detailed instructions and diagrams on how to assemble the hardware components. Information on 3D printed cases and wiring guides will be available here soon.</p>
+            <div class="placeholder-images">
+                <div class="placeholder-image">
+                    <img width="640" src="img/build-1.png" alt="Placeholder for build instructions">
+                </div>
+            </div>
+            <p>This project is designed for the Raspberry Pi 4 Model B. While other versions of Raspberry Pi may work, they are considered unsupported. <strong>All 3D-printed materials will be designed for the Pi 4 Model B only.</strong></p>
+            <p>The software is CPU-intensive (a 4-core CPU is a must), and the Pi 4 Model B is the final version that can run on 15 watts power (no special power supply required). This allows it to be used in your car.</p>
+        </section>
+
+        <section id="setup">
+            <h2>Software Setup</h2>
+            <p>Install the latest <strong>Raspberry Pi OS Lite (64-bit)</strong> to your Micro-SD card, with SSH enabled.</p>
+            <p>After booting, update/upgrade all packages and disable the swapfile to prepare the OS for use.</p>
+            <p>From an SSH terminal, setup the environment:</p>
+            <pre><code class="language-bash">
+sudo apt-get install ffmpeg
+git clone https://github.com/KawaiiFiveO/RPi-V1-Dashcam.git
+cd RPi-V1-Dashcam
+python -m venv env --system-site-packages
+source env/bin/activate
+pip install -r requirements.txt
+cp config.example config.py
+            </code></pre>
+            <p>You can use the scripts in <code>tests</code> to confirm that your hardware works.</p>
+            <p>You can configure settings such as recording duration and camera orientation in <code>config.py</code>. Note that you must copy <code>config.example</code> to <code>config.py</code> to prevent your settings from being overwritten by <code>git pull</code>.</p>
+            <p>Then, once you're ready to try the dashcam:</p>
+            <pre><code class="language-bash">
+python main.py
+            </code></pre>
+            <p>See <a href="#web-interface">Web Interface</a> for info on how to control the dashcam.</p>
+            <h3>Run Automatically on Boot</h3>
+            <p>If you want it to run automatically on boot, setup the service:</p>
+            <pre><code class="language-bash">
+sudo cp service/dashcam.service /etc/systemd/system/dashcam.service
+sudo nano /etc/systemd/system/dashcam.service
+            </code></pre>
+            <p>Edit the file with your values, then execute:</p>
+            <pre><code class="language-bash">
+sudo systemctl daemon-reload
+sudo systemctl enable dashcam.service
+sudo systemctl start dashcam.service
+            </code></pre>
+            <p>To stop it from running automatically on boot:</p>
+            <pre><code class="language-bash">
+sudo systemctl stop dashcam.service
+sudo systemctl disable dashcam.service
+            </code></pre>
+            <h3>Updating Software</h3>
+            <p>To get the latest software version from the repo, execute these commands from the repository root:</p>
+            <pre><code class="language-bash">
+git pull
+sudo systemctl daemon-reload
+sudo systemctl restart dashcam.service
+            </code></pre>
+        </section>
+
+        <section id="web-interface">
+            <h2>Web Interface</h2>
+            <p>When your Pi is connected to your home network, you can visit the webpage (at your Pi’s IP and port 5000) in your browser to control the dashcam. The Pi's IP is displayed on the OLED screen.</p>
+            <p>For example: <code>http://192.168.50.58:5000/</code></p>
+            <h3>Clean Shutdown</h3>
+            <p>It is recommended to use the <code>Shutdown Pi</code> button before unplugging the dashcam. To enable this feature:</p>
+            <pre><code class="language-bash">
+sudo visudo
+            </code></pre>
+            <p>Scroll to the very bottom of the file and add this line (replace <code>myuser</code> with your username):</p>
+            <pre><code class="language-bash">
+myuser ALL=(ALL) NOPASSWD: /sbin/shutdown
+            </code></pre>
+            <p>Exit the editor and save the file. This will allow the <code>Shutdown Pi</code> button to function.</p>
+            <h3>Web-Only Mode</h3>
+            <p>To access the files without starting any other dashcam functions (only when the dashcam service is not already running):</p>
+            <pre><code class="language-bash">
+python main.py --web-only
+            </code></pre>
+
+            <h3>Creating a Wi-Fi Hotspot</h3>
+            <p>To make the Pi start up its own network so that you can access the web interface when it's not connected to your home network:</p>
+            <pre><code class="language-bash">
+nmcli con add type wifi ifname wlan0 con-name Hotspot autoconnect yes ssid V1-Dashcam-Hotspot
+nmcli con modify Hotspot 802-11-wireless.mode ap
+nmcli con modify Hotspot ipv4.method shared
+nmcli con modify Hotspot ipv4.addresses 192.168.4.1/24
+nmcli con modify Hotspot wifi-sec.key-mgmt wpa-psk
+nmcli con modify Hotspot wifi-sec.psk "MyPasswordHere"
+nmcli con modify MyHomeWifi connection.autoconnect-priority 10
+nmcli con modify Hotspot connection.autoconnect-priority -10
+sudo systemctl restart NetworkManager
+            </code></pre>
+            <p>Replace <code>V1-Dashcam-Hotspot</code>, <code>MyHomeWifi</code>, and <code>MyPasswordHere</code> with your own values.</p>
+        </section>
+
+        <section id="post-process">
+            <h2>Post-Processing</h2>
+            <p>While the Web Interface has a <code>Burn-in</code> option, it is extremely slow and not recommended for actual use.</p>
+            <p>Instead, on a desktop computer with FFmpeg and Python installed, download and execute the <code>process_video</code> script in the <code>standalone</code> folder:</p>
+            <pre><code class="language-bash">
+python process_video.py "/path/to/your/video/20250817_131511.mp4"
+            </code></pre>
+            <p>The video needs to have a <code>.csv</code> log file in the same directory with the same name (both obtained from the dashcam). This will stabilize the video and burn-in the overlay to it.</p>
+            <p>Use the <code>--no-stabilize</code> flag if you do not want stabilization.</p>
+            <p><strong>Congratulations, your dashcam video is now ready to be edited/uploaded!</strong></p>
+        </section>
+
+        <section id="license">
+            <h2>License</h2>
+            <p>This project is distributed under the MIT License. See the <code>LICENSE.md</code> file in the source repository for more information.</p>
+            <p>You are free to use, modify, and distribute this software, provided you include the original copyright and license notice in any copy of the software/source.</p>
+            <p>This project uses code from Valentine Research's ESP Library, which is distributed under the MIT License. See the <code>ESP-License.md</code> file in the source repository for more information.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 OneHalf</p>
+        <p><a href="https://onehalf.dev/" target="_blank" rel="noopener noreferrer">Back to home</a> - <a href="https://github.com/KawaiiFiveO/RPi-V1-Dashcam" target="_blank" rel="noopener noreferrer">Source</a><br>Special thanks to <a href="https://www.rdforum.org/" target="_blank" rel="noopener noreferrer">RDForum</a>.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
